@@ -8,7 +8,6 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"time"
 )
 
 const (
@@ -79,7 +78,11 @@ func main() {
 	log.Printf("Ping and Queue up Workers...\n")
 	// Establish Ping GoRoutine and add them to Scheduler
 
-	time.Sleep(100 * time.Millisecond)
+	log.Printf("Now active.\n")
+
+	go func() {
+		log.Printf("Scheduler: %d, Hosts: %d, Jobs: %d\r", r.SchedulerStatus, len(r.WorkerHosts), len(r.JobsChannel))
+	}()
 
 	<-shutdown
 
