@@ -80,10 +80,6 @@ func main() {
 
 	log.Printf("Now active.\n")
 
-	go func() {
-		log.Printf("Scheduler: %d, Hosts: %d, Jobs: %d\r", r.SchedulerStatus, len(r.WorkerHosts), len(r.JobsChannel))
-	}()
-
 	<-shutdown
 
 	log.Printf("Shutdown process starting... Running Exit Tasks.")
