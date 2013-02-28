@@ -77,6 +77,8 @@ func main() {
 
 	log.Printf("Ping and Queue up Workers...\n")
 	// Establish Ping GoRoutine and add them to Scheduler
+	// (Should this just be connecting the workers? This way we set them as
+	// connected and have reservoir ping constantly until we disconnect.)
 
 	log.Printf("Now active.\n")
 
@@ -112,14 +114,13 @@ func visit(path string, f os.FileInfo, err error) error {
 	var counter uint64
 
 	for counter = 0; counter < workerprocesses; counter++ {
-		r.AddWorker(&r.Worker{
-			workername,
-			counter,
-			workerhost,
-			nil,
-			"",
-			true,
-		})
+		r.Workers.Set(r.WorkerID{workername, counter},
+			&r.WorkerConnection{
+				workerhost,
+				nil,
+				"",
+				false,
+			})
 	}
 
 	return nil
