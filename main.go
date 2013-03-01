@@ -31,9 +31,6 @@ func init() {
 	pflag.StringVar(&workerDirFlag, "workers", CONFIG_WORKER_DIR, "Use directory for worker configuration files.")
 }
 
-// STOP SWITCH
-var shutdown chan bool
-
 func main() {
 	pflag.Parse()
 
@@ -79,12 +76,14 @@ func main() {
 	// Establish Ping GoRoutine and add them to Scheduler
 	// (Should this just be connecting the workers? This way we set them as
 	// connected and have reservoir ping constantly until we disconnect.)
+	
+	log.Printf("Start the API interface...\n")
+	// Start the API web interface here (goweb)?
 
 	log.Printf("Now active.\n")
 
-	<-shutdown
-
-	log.Printf("Shutdown process starting... Running Exit Tasks.")
+	mainBlock := make(chan bool)
+	<-mainBlock // Won't happen, just used to wait the main thread b/c we need to keep the prog active.
 }
 
 func visit(path string, f os.FileInfo, err error) error {
